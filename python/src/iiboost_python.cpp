@@ -120,6 +120,7 @@ extern "C"
     void * trainWithChannels( ImagePixelType **imgPtr, 
                              void **evecPtr,
                              GTPixelType **gtPtr,
+                             GTPixelType **gtPtr,
                              int *width, int *height, int *depth,
                              int numStacks,
                              IntegralImagePixelType **chImgPtr,
@@ -389,6 +390,8 @@ extern "C"
         if ( ptr == 0 )
             return;
         
+        typedef ROIData::ItkEigenVectorImageType::PixelType EigenVectorMatrixType;
+        delete[] ((EigenVectorMatrixType *) ptr);
         typedef ROIData::ItkEigenVectorImageType::PixelType EigenVectorMatrixType;
         delete[] ((EigenVectorMatrixType *) ptr);
     }

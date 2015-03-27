@@ -208,7 +208,14 @@ class Booster(object):
 					raise RuntimeError("Number of channels for each image must be the same")
 
 			for img,gt,chStackList,eigvec in zip(imgStackList, gtStackList, chStackListList, eigVecOfHessianImgList):
+				if not all([a.flags["C_CONTIGUOUS"] for a in (img, gt, eigvec) ]):
+					raise RuntimeError("all inputs must be C_CONTIGUOUS, and must be provided in z-y-x order.")
+				if eigvec.shape != img.shape + (3,3):
+					raise RuntimeError("eigVecImg shape is {}, which doesn't correspond to raw image shape: {}.".format( eigvec.shape, img.shape ))
+
 				for ch in chStackList:
+					if not ch.flags["C_CONTIGUOUS"]:
+						raise RuntimeError("Integral image feature channels must be C_CONTIGUOUS, and must be provided in z-y-x order.")
 					if img.shape != gt.shape or gt.shape != ch.shape:
 						raise RuntimeError("image, ground truth and channels must be of same size,",img.shape," ",gt.shape," ",ch.shape)
 

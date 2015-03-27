@@ -356,8 +356,12 @@ public:
 	}
 
 	// predicts roiNo in rois
+#if defined(_MSC_VER) && _MSC_VER <= 1700
+	template<bool TUseEarlyStopping>
+#else
 	template<bool TUseEarlyStopping = false>
-	void predict( MultipleROIData &rois,
+#endif
+    void predict( MultipleROIData &rois,
 				  Matrix3D<float> *pred,
 				  unsigned roiNo = 0,
 				  unsigned numThreads = IIBOOST_NUM_THREADS ) const
@@ -417,8 +421,12 @@ public:
 
 	// it predicts feature 0, then feature 1, etc.
 	// thus it behaves differently for early stopping (better it seems, actually)
-	template<bool TUseEarlyStopping = false>
-	void predictWithFeatureOrdering( MultipleROIData &rois,
+#if defined(_MSC_VER) && _MSC_VER <= 1700
+	template<bool TUseEarlyStopping>
+#else
+    template<bool TUseEarlyStopping = false>
+#endif
+    void predictWithFeatureOrdering( MultipleROIData &rois,
 				  Matrix3D<float> *pred,
 				  unsigned roiNo = 0,
 				  unsigned numThreads = IIBOOST_NUM_THREADS ) const
@@ -503,8 +511,12 @@ public:
 
 	// probes the two possible polarities, return whoever is max
 	// works with early stopping if desired
-	template<bool TUseEarlyStopping = false>
-	void predictDoublePolarity( MultipleROIData &rois,   //rois is not const bcos we need to invert matrices
+#if defined(_MSC_VER) && _MSC_VER <= 1700
+	template<bool TUseEarlyStopping>
+#else
+    template<bool TUseEarlyStopping = false>
+#endif
+    void predictDoublePolarity( MultipleROIData &rois,   //rois is not const bcos we need to invert matrices
 				  Matrix3D<float> *pred,
 				  unsigned roiNo = 0,
 				  unsigned numThreads = IIBOOST_NUM_THREADS ) const

@@ -21,8 +21,14 @@ def propToCArray( L, prop, cArrayElType ):
 
 # load data
 print("--- Loading data ---")
-gts = [joblib.load("../../testData/gt.jlb")]
-imgs = [joblib.load("../../testData/img.jlb")]
+# load data
+from os.path import split, join
+data_dir = join(split(__file__)[0], '../../testData')
+gt = joblib.load(data_dir + "/gt.jlb")
+img = joblib.load(data_dir + "/img.jlb")
+
+gts = [gt]
+imgs = [img]
 
 
 print("--- Loading lib ---")

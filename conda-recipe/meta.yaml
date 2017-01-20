@@ -1,0 +1,62 @@
+package:
+    name: iiboost
+
+  {% if GIT_DESCRIBE_NUMBER|int == 0 %}
+    version: {{GIT_DESCRIBE_TAG}}
+  {% else %}
+    # If we're using a non-tagged revision, append '.postN' to the version
+    version: {{GIT_DESCRIBE_TAG}}.post{{GIT_DESCRIBE_NUMBER}}
+  {% endif %}
+
+source:
+  #git_url: https://github.com/cbecker/iiboost
+  #git_url: https://github.com/stuarteberg/iiboost
+  #git_tag: HEAD
+  
+  path: ..
+
+build:
+  number: 0
+  string: {{CONDA_PY}}_{{PKG_BUILDNUM}}_g{{GIT_FULL_HASH[:7]}}
+  detect_binary_files_with_prefix: true
+
+requirements:  
+  build:
+    - gcc 4.8.5 # [unix]
+    - python 2.7*|>=3.5
+    - python {{PY_VER}}*
+    - numpy
+    - itk-seg-conv-only
+    - jpeg
+    - libtiff
+    - libpng 1.6.17
+
+  run:
+    - libgcc # [unix]
+    - python {{PY_VER}}*
+    - numpy
+    - itk-seg-conv-only
+    - jpeg
+    - libtiff
+    - libpng 1.6.17
+
+test:
+  imports:
+    - iiboost
+
+  source_files:
+    - testData
+    - python/tests
+
+  requires:
+    - scikit-learn
+    
+    # We provide exact versions of these to force consistent packages (instead of pulling some from the ilastik channel)
+    - matplotlib 1.5.1
+    - qt 4.8.6*
+    - pyqt 4.11.3*
+
+about:
+  home: http://github.com/cbecker/iiboost
+  license: GPLv3
+  summary: Learning Context Cues for Synapse Segmentation

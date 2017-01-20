@@ -11,8 +11,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # load data
-gt = joblib.load("../../testData/gt.jlb")
-img = joblib.load("../../testData/img.jlb")
+from os.path import split, join
+data_dir = join(split(__file__)[0], '../../testData')
+gt = joblib.load(data_dir + "/gt.jlb")
+img = joblib.load(data_dir + "/img.jlb")
 
 # let's pretend we have 3 image stacks with different number of ROIs
 # with its corresponding gt and 2 feature channels

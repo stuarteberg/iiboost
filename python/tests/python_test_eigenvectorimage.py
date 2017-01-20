@@ -1,4 +1,4 @@
-from iiboost import EigenVectorsOfHessianImage
+from iiboost import  computeEigenVectorsOfHessianImage
 from sklearn.externals import joblib    # to load data
 
 import numpy as np
@@ -7,10 +7,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # load data
-gt = joblib.load("gt.jlb")
-img = joblib.load("img.jlb")
+from os.path import split, join
+data_dir = join(split(__file__)[0], '../../testData')
+gt = joblib.load(data_dir + "/gt.jlb")
+img = joblib.load(data_dir + "/img.jlb")
 
 # compute eigen vector image
-eigvecImg = EigenVectorsOfHessianImage()
-eigvecImg.compute( gt, zAnisotropyFactor=1.0 )
-
+eigenvectors = computeEigenVectorsOfHessianImage(gt, zAnisotropyFactor=1.0, sigma=1.0)

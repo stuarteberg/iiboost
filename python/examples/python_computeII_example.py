@@ -19,7 +19,7 @@ imgFloat = np.float32(img)
 
 iiImage = computeIntegralImage( imgFloat )
 
-print "And now for the show."
+print("And now for the show.")
 
 # show image & prediction side by side
 plt.ion()

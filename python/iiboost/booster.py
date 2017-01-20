@@ -22,8 +22,6 @@ import collections
 import numpy as np
 import ctypes
 
-from exceptions import RuntimeError
-
 # libiiboost_python.so must reside in the same directory as this module.
 if sys.platform.startswith('win'):
     libName = os.path.join(os.path.split(__file__)[0], "iiboost_python.dll")
@@ -277,7 +275,7 @@ class Booster(object):
 
             numStacks = len(chStackListList)
             numChannels = len(chStackListList[0])
-            print "Number of stacks: ",numStacks,". Each with ",numChannels," channels."
+            print("Number of stacks: ",numStacks,". Each with ",numChannels," channels.")
 
             if debugOutput:
                 dbgOut = ctypes.c_int(1)

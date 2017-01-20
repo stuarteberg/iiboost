@@ -8,24 +8,12 @@ cmake_minimum_required (VERSION 2.8)
 
 FIND_PACKAGE(PythonInterp 2 REQUIRED)
 
-IF(PYTHONINTERP_FOUND)
-    # check that Python version 2.x is used
-    execute_process(COMMAND ${PYTHON_EXECUTABLE} -c
-                         "import sys; print(sys.version[0])"
-                          OUTPUT_VARIABLE PYTHON_MAJOR_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE)
-    IF(NOT (${PYTHON_MAJOR_VERSION} EQUAL 2))
-        MESSAGE(FATAL_ERROR "Python bindings require Python 2.x.")
-    ENDIF()
-ENDIF()
+FIND_PACKAGE(PythonInterp REQUIRED)
+FIND_PACKAGE(PythonLibs REQUIRED)
 
-######################################################################
-#
-#      find Python library
-#
-######################################################################
-
+# find Python library
 execute_process(COMMAND ${PYTHON_EXECUTABLE} -c
-                 "import sys; print sys.exec_prefix"
+                 "import sys; print(sys.exec_prefix)"
                   OUTPUT_VARIABLE PYTHON_PREFIX OUTPUT_STRIP_TRAILING_WHITESPACE)
 
 IF(APPLE AND ${PYTHON_PREFIX} MATCHES ".*framework.*")
@@ -34,24 +22,27 @@ IF(APPLE AND ${PYTHON_PREFIX} MATCHES ".*framework.*")
         FORCE)
 ELSE()
     execute_process(COMMAND ${PYTHON_EXECUTABLE} -c
-                     "import sys; skip = 2 if sys.platform.startswith('win') else 1; print 'python' + sys.version[0:3:skip]"
+                     "import sys; skip = 2 if sys.platform.startswith('win') else 1; print('python' + sys.version[0:3:skip] + ('' if sys.version_info.major == 2 else sys.abiflags) )"
                       OUTPUT_VARIABLE PYTHON_LIBRARY_NAME OUTPUT_STRIP_TRAILING_WHITESPACE)
-    FIND_LIBRARY(PYTHON_LIBRARIES ${PYTHON_LIBRARY_NAME} HINTS "${PYTHON_PREFIX}" 
+    FIND_LIBRARY(PYTHON_LIBRARIES ${PYTHON_LIBRARY_NAME} HINTS "${PYTHON_PREFIX}"
                  PATH_SUFFIXES lib lib64 libs DOC "Python libraries")
 ENDIF()
 
-######################################################################
-#
-#      find Python includes
-#
-######################################################################
-
+# find Python includes
 execute_process(COMMAND ${PYTHON_EXECUTABLE} -c
-                "from distutils.sysconfig import *; print get_python_inc()"
+                "from distutils.sysconfig import *; print(get_python_inc())"
                 OUTPUT_VARIABLE PYTHON_INCLUDE OUTPUT_STRIP_TRAILING_WHITESPACE)
 SET(PYTHON_INCLUDE_PATH ${PYTHON_INCLUDE}
     CACHE PATH "Path to Python include files"
     FORCE)
+
+IF(PYTHON_LIBRARIES AND PYTHON_INCLUDE_PATH)
+    MESSAGE(STATUS "Found Python libraries: ${PYTHON_LIBRARIES}")
+    MESSAGE(STATUS "Found Python includes:  ${PYTHON_INCLUDE_PATH}")
+    SET(PYTHONLIBS_FOUND TRUE)
+ELSE()
+    MESSAGE(STATUS "Could NOT find Python libraries and/or includes")
+ENDIF()
 
 ######################################################################
 #
@@ -61,7 +52,7 @@ SET(PYTHON_INCLUDE_PATH ${PYTHON_INCLUDE}
 ######################################################################
 IF(NOT DEFINED IIBOOST_PYTHON_INSTALL_DIR OR IIBOOST_PYTHON_INSTALL_DIR MATCHES "^$")
     execute_process(COMMAND ${PYTHON_EXECUTABLE} -c
-                     "from distutils.sysconfig import *; print get_python_lib(1)"
+                     "from distutils.sysconfig import *; print(get_python_lib(1))"
                       OUTPUT_VARIABLE PYTHON_SITE_PACKAGES OUTPUT_STRIP_TRAILING_WHITESPACE)
     FILE(TO_CMAKE_PATH ${PYTHON_SITE_PACKAGES} IIBOOST_PYTHON_INSTALL_DIR)
 ENDIF()

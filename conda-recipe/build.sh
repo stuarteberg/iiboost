@@ -5,17 +5,18 @@ PY_VER=$(python -c "import sys; print('{}.{}'.format(*sys.version_info[:2]))")
 PY_ABIFLAGS=$(python -c "import sys; print('' if sys.version_info.major == 2 else sys.abiflags)")
 PY_ABI=${PY_VER}${PY_ABIFLAGS}
 
-DYLIB_EXT=so
-CC=${PREFIX}/bin/gcc
-CXX=${PREFIX}/bin/g++
-IIBOOST_USE_OPENMP=YES
 
 if [[ $(uname) == 'Darwin' ]]; then
     DYLIB_EXT=dylib
-    #IIBOOST_CXXFLAGS="${IIBOOST_CXXFLAGS} -stdlib=libc++"
-    #CC=clang
-    #CXX=clang++
-    #IIBOOST_USE_OPENMP=NO
+    CC=clang
+    CXX=clang++
+    IIBOOST_CXXFLAGS="${IIBOOST_CXXFLAGS} -std=c++11 -stdlib=libc++"
+    IIBOOST_USE_OPENMP=NO # clang trunk supports -fopenmp, but Apple's clang doesn't support it yet.
+else
+    DYLIB_EXT=so
+    CC=${PREFIX}/bin/gcc
+    CXX=${PREFIX}/bin/g++
+    IIBOOST_USE_OPENMP=YES
 fi
 
 mkdir build
@@ -35,7 +36,7 @@ cmake .. \
     -DPYTHON_INCLUDE_PATH=${PREFIX}/include/python${PY_ABI} \
     -DPYTHON_LIBRARIES=${PREFIX}/lib/libpython${PY_ABI}.${DYLIB_EXT} \
     -DPYTHON_NUMPY_INCLUDE_DIR=${SP_DIR}/numpy/core/include \
-    -DITK_DIR=${PREFIX}/lib/cmake/ITK-4.6 \
+    -DITK_DIR=${PREFIX}/lib/cmake/ITK-4.11 \
     -DIIBOOST_USE_OPENMP=${IIBOOST_USE_OPENMP} \
 ##
 

@@ -22,20 +22,22 @@ build:
 
 requirements:  
   build:
-    - gcc 4.8.5 # [unix]
+    - gcc 4.8.5 # [linux]
     - python 2.7*|>=3.5
     - python {{PY_VER}}*
     - numpy
-    - itk-seg-conv-only
+    #- itk-seg-conv-only 4.11*
+    - itk 4.11*
     - jpeg
     - libtiff
     - libpng 1.6.27
 
   run:
-    - libgcc # [unix]
+    - libgcc # [linux]
     - python {{PY_VER}}*
     - numpy
-    - itk-seg-conv-only
+    #- itk-seg-conv-only
+    - itk 4.11*
     - jpeg
     - libtiff
     - libpng >=1.6.27

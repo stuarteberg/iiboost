@@ -26,7 +26,6 @@ requirements:
     - python 2.7*|>=3.5
     - python {{PY_VER}}*
     - numpy
-    #- itk-seg-conv-only 4.11*
     - itk 4.11*
     - jpeg
     - libtiff
@@ -36,7 +35,6 @@ requirements:
     - libgcc # [linux]
     - python {{PY_VER}}*
     - numpy
-    #- itk-seg-conv-only
     - itk 4.11*
     - jpeg
     - libtiff
@@ -52,11 +50,7 @@ test:
 
   requires:
     - scikit-learn
-    
-    # We provide exact versions of these to force consistent packages (instead of pulling some from the ilastik channel)
-    - matplotlib 1.5.1
-    - qt 4.8.6*
-    - pyqt 4.11.3*
+    - matplotlib
 
 about:
   home: http://github.com/cbecker/iiboost

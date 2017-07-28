@@ -29,7 +29,7 @@ requirements:
     - itk 4.11*
     - jpeg
     - libtiff
-    - libpng 1.6.27
+    - libpng 1.6.28
 
   run:
     - libgcc # [linux]
@@ -38,7 +38,7 @@ requirements:
     - itk 4.11*
     - jpeg
     - libtiff
-    - libpng >=1.6.27
+    - libpng >=1.6.28
 
 test:
   imports:

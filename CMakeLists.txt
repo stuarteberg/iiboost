@@ -34,8 +34,8 @@ externalproject_add(
                "-DCMAKE_BUILD_TYPE=RELEASE"
                "-DMAINTAINER=OFF"
                "-DRANDOM_SHARED_LIB=OFF"
-               "-DCMAKE_C_FLAGS=-fpic"
-               "-DCMAKE_CXX_FLAGS=-fpic"
+               "-DCMAKE_C_FLAGS=${CMAKE_C_FLAGS} -fpic"
+               "-DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS} -fpic"
                "-DDISABLE_BOOST=ON"
                "-DRANDOMLIB_DOCUMENTATION=OFF"
     UPDATE_COMMAND "" )

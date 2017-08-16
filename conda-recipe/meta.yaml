@@ -29,6 +29,7 @@ requirements:
     - itk 4.11*
     - jpeg
     - libtiff
+    - hdf5 1.8.17
     - libpng 1.6.28
 
   run:
@@ -39,6 +40,7 @@ requirements:
     - jpeg
     - libtiff
     - libpng >=1.6.28
+    - hdf5 1.8.17
 
 test:
   imports:

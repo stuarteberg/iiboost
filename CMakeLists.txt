@@ -5,7 +5,7 @@ cmake_minimum_required (VERSION 2.8)
 include(ExternalProject)
 
 ## Needs ITK at least v4
-find_package(ITK REQUIRED NO_DEFAULT_PATH)
+find_package(ITK REQUIRED)
 include(${ITK_USE_FILE})
 
 if( "${ITK_VERSION_MAJOR}" LESS 4 )

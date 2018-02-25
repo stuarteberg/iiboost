@@ -37,7 +37,6 @@ cmake .. \
     -DPYTHON_INCLUDE_PATH=${PREFIX}/include/python${PY_ABI} \
     -DPYTHON_LIBRARIES=${PREFIX}/lib/libpython${PY_ABI}.${DYLIB_EXT} \
     -DPYTHON_NUMPY_INCLUDE_DIR=${SP_DIR}/numpy/core/include \
-    -DITK_DIR=${PREFIX}/lib/cmake/ITK-4.11 \
     -DIIBOOST_USE_OPENMP=${IIBOOST_USE_OPENMP} \
 ##
 

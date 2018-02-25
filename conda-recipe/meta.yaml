@@ -24,18 +24,20 @@ requirements:
   build:
     - python 2.7*|>=3.5
     - python {{PY_VER}}*
-    - numpy
-    - itk 4.11*
+    - numpy {{NPY_VER}}*
+    - itk
     - jpeg
+    - libitk
     - libtiff
     - hdf5 1.10.1
     - libpng 1.6.28
 
   run:
     - python {{PY_VER}}*
-    - numpy
-    - itk 4.11*
+    - numpy {{NPY_VER}}*
+    - itk
     - jpeg
+    - libitk
     - libtiff
     - libpng >=1.6.28
     - hdf5 1.10.1

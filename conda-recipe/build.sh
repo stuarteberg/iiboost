@@ -14,9 +14,10 @@ if [[ $(uname) == 'Darwin' ]]; then
     IIBOOST_USE_OPENMP=NO # clang trunk supports -fopenmp, but Apple's clang doesn't support it yet.
 else
     DYLIB_EXT=so
-    CC=${PREFIX}/bin/gcc
-    CXX=${PREFIX}/bin/g++
+    CC=gcc
+    CXX=g++
     IIBOOST_USE_OPENMP=YES
+    IIBOOST_CXXFLAGS="${IIBOOST_CXXFLAGS} -D_GLIBCXX_USE_CXX11_ABI=0"
 fi
 
 mkdir build

@@ -17,7 +17,10 @@ else
     CC=gcc
     CXX=g++
     IIBOOST_USE_OPENMP=YES
-    IIBOOST_CXXFLAGS="${IIBOOST_CXXFLAGS} -D_GLIBCXX_USE_CXX11_ABI=0"
+    # enable compilation without CXX abi to stay compatible with gcc < 5 built packages
+    if [[ ${DO_NOT_BUILD_WITH_CXX11_ABI} == '1' ]]; then
+        IIBOOST_CXXFLAGS="-D_GLIBCXX_USE_CXX11_ABI=0 ${IIBOOST_CXXFLAGS}"
+    fi
 fi
 
 mkdir build

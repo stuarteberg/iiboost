@@ -16,31 +16,36 @@ source:
   path: ..
 
 build:
-  number: 0
+  number: 2
   string: {{CONDA_PY}}_{{PKG_BUILDNUM}}_g{{GIT_FULL_HASH[:7]}}
   detect_binary_files_with_prefix: true
+  script_env:
+    # Control building with CXX11 abi
+    - DO_NOT_BUILD_WITH_CXX11_ABI  # [linux]
 
 requirements:  
   build:
-    - gcc 4.8.5 # [linux]
     - python 2.7*|>=3.5
     - python {{PY_VER}}*
-    - numpy
-    - itk 4.11*
+    - numpy {{NPY_VER}}*
+    - itk
     - jpeg
+    - libitk
     - libtiff
-    - hdf5 1.8.17
+    - hdf5 1.10.1
     - libpng 1.6.28
 
   run:
-    - libgcc # [linux]
     - python {{PY_VER}}*
-    - numpy
-    - itk 4.11*
+    - numpy {{NPY_VER}}*
+    - itk
     - jpeg
+    - libitk
+    # in order to suppor older linux distros after gcc5 switch:
+    - libstdcxx-ng >=5.4.0
     - libtiff
     - libpng >=1.6.28
-    - hdf5 1.8.17
+    - hdf5 1.10.1
 
 test:
   imports:

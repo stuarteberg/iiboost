@@ -14,9 +14,13 @@ if [[ $(uname) == 'Darwin' ]]; then
     IIBOOST_USE_OPENMP=NO # clang trunk supports -fopenmp, but Apple's clang doesn't support it yet.
 else
     DYLIB_EXT=so
-    CC=${PREFIX}/bin/gcc
-    CXX=${PREFIX}/bin/g++
+    CC=gcc
+    CXX=g++
     IIBOOST_USE_OPENMP=YES
+    # enable compilation without CXX abi to stay compatible with gcc < 5 built packages
+    if [[ ${DO_NOT_BUILD_WITH_CXX11_ABI} == '1' ]]; then
+        IIBOOST_CXXFLAGS="-D_GLIBCXX_USE_CXX11_ABI=0 ${IIBOOST_CXXFLAGS}"
+    fi
 fi
 
 mkdir build
@@ -36,7 +40,6 @@ cmake .. \
     -DPYTHON_INCLUDE_PATH=${PREFIX}/include/python${PY_ABI} \
     -DPYTHON_LIBRARIES=${PREFIX}/lib/libpython${PY_ABI}.${DYLIB_EXT} \
     -DPYTHON_NUMPY_INCLUDE_DIR=${SP_DIR}/numpy/core/include \
-    -DITK_DIR=${PREFIX}/lib/cmake/ITK-4.11 \
     -DIIBOOST_USE_OPENMP=${IIBOOST_USE_OPENMP} \
 ##
 

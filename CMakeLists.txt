@@ -5,7 +5,7 @@ cmake_minimum_required (VERSION 2.8)
 include(ExternalProject)
 
 ## Needs ITK at least v4
-find_package(ITK REQUIRED NO_DEFAULT_PATH)
+find_package(ITK REQUIRED)
 include(${ITK_USE_FILE})
 
 if( "${ITK_VERSION_MAJOR}" LESS 4 )
@@ -103,11 +103,11 @@ if(NOT MSVC)
     set(COMMON_LIBS ${COMMON_LIBS} stdc++)  # not sure why we need stdc++ here
 endif()
 
-add_executable( test test.cpp slic/LKM.cpp slic/utils.cpp )
+add_executable( _test test.cpp slic/LKM.cpp slic/utils.cpp )
 if (APPLE OR MSVC)
-    target_link_libraries( test ${COMMON_LIBS} )
+    target_link_libraries( _test ${COMMON_LIBS} )
 else()
-    target_link_libraries( test ${COMMON_LIBS} rt)
+    target_link_libraries( _test ${COMMON_LIBS} rt)
 endif()
 
 #
